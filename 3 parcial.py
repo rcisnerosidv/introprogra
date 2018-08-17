@@ -1,8 +1,8 @@
 class alumno:
     def __init__(self, Nombre, Promedio, Grupo):
-        self.Nombre = ""
-        self.Promedio = 0.0
-        self.Grupo = ""
+        self.Nombre = Nombre
+        self.Promedio = Promedio
+        self.Grupo = Grupo
 
 def grupos():
 
@@ -60,6 +60,13 @@ def grupos():
   
     for i in range(len(g2018B)):
         g18B.write(str(g2018B[i]))
+
+    g16A.close
+    g16B.close
+    g17A.close
+    g17B.close
+    g18A.close
+    g18B.close
  
 def agregar(listAlumno):
     name = input("Ingrese el nombre del alumno: ")
@@ -79,18 +86,20 @@ def objetoAlumno():
         lista3 = file1.readlines()
     for i in range (len(lista3)):
         a = lista3[i].split(', ')
-        objalum = alumno(a[0], a[1], a[2])
+        objalum = alumno(a[0], float(a[1]), a[2])
         ListaAlumnos.append(objalum)
+        print(objalum)
+    file1.close
 
     return ListaAlumnos
 
 def alphaSort(alum, num):
     if num == 0:
         return alum
-    alpha = alphasort(alum, num-1)
+    alpha = alphaSort(alum, num-1)
     for i in range(1, (len(alpha) + 1 - num)):
         if alpha[i-1].Nombre > alpha[i].Nombre:
-            mayor = alfabetico[i]
+            mayor = alpha[i]
             alpha[i] = alpha[i-1]
             alpha[i-1] = mayor
 
@@ -110,9 +119,10 @@ def avSort(alum, num):
 
 
 def main():
+    objetoAlumno()
     x = objetoAlumno()
     print("1. Separar Nombres por grupo en archivos diferentes, 2. Agregar Alumno, 3. Ordenar Alfabeticamente, 4. Ordenar por promedio  ")
-    case = input("Que deseas hacer? ")
+    case = int(input("Que deseas hacer? "))
     if (case == 1):
         grupos()
         print("Operación realizada con éxito ")
@@ -120,16 +130,18 @@ def main():
         agregar(x)
     
     elif (case == 3):
-        myList = ordenProm(x, len(x))
+        myList = alphaSort(x, len(x))
         Alfabetico = open('Alfabetico.txt','w')
         for i in range(len(myList)):
-            Alfabetico.write(str(myList[i].nombre)+', '+str(myList[i].promedio)+', '+str(myList[i].grupo))
+            Alfabetico.write(str(myList[i].Nombre) + ', ' + str(myList[i].Promedio)+ ', ' + str(myList[i].Grupo) + "\n")
+        print("Operación realizada con éxito")
 
     elif (case == 4):
-       myList = ordenProm(x, len(x))
+       myList = avSort(x, len(x))
        Promedio = open('Promedio.txt','w')
        for i in range(len(myList)):
-            Promedio.write(str(myList[i].nombre)+', '+str(myList[i].promedio)+', '+str(myList[i].grupo))
+            Promedio.write(str(myList[i].Nombre) + ', ' + str(myList[i].Promedio) + ', ' + str(myList[i].Grupo) + "\n")
+       print("Operación realizada con éxito")
 
 
 
